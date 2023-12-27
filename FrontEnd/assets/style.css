@@ -218,14 +218,14 @@ li:hover {
   justify-content: center;
   margin-bottom: 5em;
   margin-top: 5em;
+  gap: 10px;
 }
 
 .filter {
   border-radius: 60px;
   background-color: var(--backgroungColor);
   border: 1px solid var(--mainColor);
-  width: 100px;
-  height: 37px;
+  padding : 10px 20px;
   text-align: center;
   font-family: Syne;
   font-size: 16px;
@@ -234,9 +234,13 @@ li:hover {
   line-height: normal;
 }
 
-.filter-active {
+.filter--active {
   background-color: var(--mainColor);
   color : #fff;
+}
+
+.hidden {
+  display: none;
 }
 
 .gallery {
