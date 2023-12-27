@@ -72,15 +72,17 @@ function handleFilterClick(event) {
   const buttonId = event.target.id;
   console.log("Filter button clicked:", categoryId);
 
+  const filterButtons = document.querySelectorAll(".filter");
+  filterButtons.forEach((button) => {
+    button.classList.toggle("filter--active", button === event.target);
+  });
+
   const works = document.querySelectorAll(".gallery figure");
   works.forEach((work) => {
-    if (buttonId === "all") {
-      work.classList.remove("hidden");
-    } else if (work.dataset.id !== categoryId) {
-      work.classList.add("hidden");
-    } else {
-      work.classList.remove("hidden");
-    }
+    const isAllButton = buttonId === "all";
+    const isMatchingCategory = work.dataset.id === categoryId;
+
+    work.classList.toggle("hidden", !isAllButton && !isMatchingCategory);
   });
 }
 
