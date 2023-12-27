@@ -269,4 +269,5 @@ footer nav ul {
   justify-content: flex-end;
   padding: 2em;
   background-color: var(--footerColor);
+  max-width: 100vw;
 }
