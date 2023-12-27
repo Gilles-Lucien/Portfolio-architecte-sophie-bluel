@@ -1,39 +1,76 @@
 // async function to get the works from the API
 async function getWorks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  const works = await response.json();
-  const gallery = document.querySelector(".gallery");
-  gallery.innerHTML = "";
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    const works = await response.json();
+    const gallery = document.querySelector(".gallery");
+    gallery.innerHTML = "";
 
-  console.log(works);
+    console.log(works);
 
-  works.forEach(workCard => {
-    const workElement = document.createElement("figure");
-    workElement.dataset.id = workCard.id;
+    works.forEach((workCard) => {
+      const workElement = document.createElement("figure");
+      workElement.dataset.id = workCard.id;
 
-    const imageElement = document.createElement("img");
-    imageElement.src = workCard.imageUrl;
-    imageElement.alt = workCard.title;
+      const imageElement = document.createElement("img");
+      imageElement.src = workCard.imageUrl;
+      imageElement.alt = workCard.title;
 
-    const titleElement = document.createElement("figcaption");
-    titleElement.innerText = workCard.title ?? "(aucun titre)";
+      const titleElement = document.createElement("figcaption");
+      titleElement.innerText = workCard.title ?? "(aucun titre)";
 
-    gallery.appendChild(workElement);
-    workElement.appendChild(imageElement);
-    workElement.appendChild(titleElement);
-  });
+      gallery.appendChild(workElement);
+      workElement.appendChild(imageElement);
+      workElement.appendChild(titleElement);
+    });
+  } catch (error) {
+    console.error("Error fetching works:", error);
+  }
 }
 
 // async function to get the categories from the API
 async function getCategories() {
-  const response = await fetch("http://localhost:5678/api/categories");
-  const categories = await response.json();
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
 
-  console.log(categories);
+    console.log(categories);
 
-  // Add your code here to handle the categories data
+    const filtersDiv = document.querySelector(".filters");
+    // create a unique button "all"
+    const firstButtonElement = document.createElement("button");
+    firstButtonElement.innerText = "Tous";
+    firstButtonElement.dataset.id = categories
+      .map((category) => category.id)
+      .join(",");
+    firstButtonElement.classList.add("filter", "filter--active");
+    filtersDiv.appendChild(firstButtonElement);
+    // create a button for each category
+    categories.forEach((category) => {
+      const buttonElement = document.createElement("button");
+      buttonElement.innerText = category.name;
+      buttonElement.dataset.id = category.id;
+      buttonElement.classList.add("filter");
+
+      filtersDiv.appendChild(buttonElement);
+    });
+
+    // add event listener to filter buttons
+    const filterButtons = document.querySelectorAll(".filter");
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", handleFilterClick);
+    });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+}
+
+// function to handle the click on a filter button
+function handleFilterClick(event) {
+  const categoryId = event.target.dataset.id;
+  console.log("Filter button clicked:", categoryId);
+
 }
 
 getWorks();
 getCategories();
-
