@@ -131,6 +131,7 @@ table {
 
 :root {
   --backgroungColor: #fffef8;
+  --mainColor: #1d6154;
   --footerColor: #ffffff;
 }
 
@@ -211,6 +212,33 @@ li:hover {
   text-align: center;
   margin-bottom: 1em;
 }
+
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5em;
+  margin-top: 5em;
+}
+
+.filter {
+  border-radius: 60px;
+  background-color: var(--backgroungColor);
+  border: 1px solid var(--mainColor);
+  width: 100px;
+  height: 37px;
+  text-align: center;
+  font-family: Syne;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.filter-active {
+  background-color: var(--mainColor);
+  color : #fff;
+}
+
 .gallery {
   width: 100%;
   display: grid;
