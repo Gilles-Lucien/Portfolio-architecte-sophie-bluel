@@ -10,7 +10,7 @@ async function getWorks() {
 
     works.forEach((workCard) => {
       const workElement = document.createElement("figure");
-      workElement.dataset.id = workCard.id;
+      workElement.dataset.id = workCard.categoryId;
 
       const imageElement = document.createElement("img");
       imageElement.src = workCard.imageUrl;
@@ -28,7 +28,7 @@ async function getWorks() {
   }
 }
 
-// async function to get the categories from the API
+// async function to get the categories filters from the API
 async function getCategories() {
   try {
     const response = await fetch("http://localhost:5678/api/categories");
@@ -70,6 +70,14 @@ function handleFilterClick(event) {
   const categoryId = event.target.dataset.id;
   console.log("Filter button clicked:", categoryId);
 
+  const works = document.querySelectorAll(".gallery figure");
+  works.forEach((work) => {
+    if (work.dataset.id !== categoryId) {
+      work.classList.add("hidden");
+    } else {
+      work.classList.remove("hidden");
+    }
+  });
 }
 
 getWorks();
