@@ -40,6 +40,7 @@ async function getCategories() {
     // create a unique button "all"
     const firstButtonElement = document.createElement("button");
     firstButtonElement.innerText = "Tous";
+    firstButtonElement.id = "all";
     firstButtonElement.dataset.id = categories
       .map((category) => category.id)
       .join(",");
@@ -68,11 +69,14 @@ async function getCategories() {
 // function to handle the click on a filter button
 function handleFilterClick(event) {
   const categoryId = event.target.dataset.id;
+  const buttonId = event.target.id;
   console.log("Filter button clicked:", categoryId);
 
   const works = document.querySelectorAll(".gallery figure");
   works.forEach((work) => {
-    if (work.dataset.id !== categoryId) {
+    if (buttonId === "all") {
+      work.classList.remove("hidden");
+    } else if (work.dataset.id !== categoryId) {
       work.classList.add("hidden");
     } else {
       work.classList.remove("hidden");
