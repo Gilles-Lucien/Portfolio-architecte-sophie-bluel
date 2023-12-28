@@ -52,7 +52,6 @@ async function getCategories() {
       buttonElement.innerText = category.name;
       buttonElement.dataset.id = category.id;
       buttonElement.classList.add("filter");
-
       filtersDiv.appendChild(buttonElement);
     });
 
@@ -72,11 +71,13 @@ function handleFilterClick(event) {
   const buttonId = event.target.id;
   console.log("Filter button clicked:", categoryId);
 
+  // toggle active class on filter buttons
   const filterButtons = document.querySelectorAll(".filter");
   filterButtons.forEach((button) => {
     button.classList.toggle("filter--active", button === event.target);
   });
 
+  // toggle hidden class on works
   const works = document.querySelectorAll(".gallery figure");
   works.forEach((work) => {
     const isAllButton = buttonId === "all";

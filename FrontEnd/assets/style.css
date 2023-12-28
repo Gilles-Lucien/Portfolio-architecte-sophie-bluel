@@ -135,6 +135,7 @@ table {
   --footerColor: #ffffff;
 }
 
+
 body {
   max-width: 1140px;
   margin: auto;
@@ -254,33 +255,33 @@ li:hover {
 .gallery img {
   width: 100%;
 }
-#contact {
+.sectionForm  {
   width: 50%;
   margin: auto;
 }
-#contact > * {
+.sectionForm  > * {
   text-align: center;
 }
-#contact h2 {
+.sectionForm  h2 {
   margin-bottom: 20px;
 }
-#contact form {
+.sectionForm  form {
   text-align: left;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
 
-#contact input {
+.sectionForm  input {
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+.sectionForm  label {
   margin: 2em 0 1em 0;
 }
-#contact textarea {
+.sectionForm  textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -303,3 +304,11 @@ footer nav ul {
   background-color: var(--footerColor);
   max-width: 100vw;
 }
+
+#stickyFooter {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 1140px;
+}
+
