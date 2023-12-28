@@ -302,6 +302,8 @@ li:hover {
   font-weight: 500;
   line-height: normal;
   text-decoration-line: underline;
+  display: flex;
+  justify-content: center;
 }
 
 input[type="submit"] {
