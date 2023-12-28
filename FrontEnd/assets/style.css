@@ -132,6 +132,7 @@ table {
 :root {
   --backgroungColor: #fffef8;
   --mainColor: #1d6154;
+  --secondaryColor: #1D6154;
   --footerColor: #ffffff;
 }
 
@@ -148,6 +149,12 @@ header {
   justify-content: space-between;
   margin: 50px 0;
 }
+
+header a {
+  all: unset;
+  cursor: pointer;
+}
+
 section {
   margin: 50px 0;
 }
@@ -182,6 +189,7 @@ nav li {
   padding: 0 10px;
   font-size: 1.2em;
 }
+
 
 li:hover {
   color: #b1663c;
@@ -284,6 +292,16 @@ li:hover {
 .sectionForm  textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.sectionForm a {
+  color: var(--secondaryColor);
+  font-family: Work Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration-line: underline;
 }
 
 input[type="submit"] {
