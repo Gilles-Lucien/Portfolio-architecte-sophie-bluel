@@ -1,7 +1,26 @@
 // Here is the code to display the works and filter them by category
 
-// créer une fonction avec un paramètre pour créer l'élément 
-// 
+// tâches réalisées depuis la dernière session :
+// - création d'une fonction avec paramètre pour ajouter un élément de travail à la galerie
+// - création d'une fonction avec paramètre pour ajouter un bouton de catégorie aux filtres
+
+// function to add a work element to the gallery
+function addWorkElement(work, gallery) {
+  const workElement = document.createElement("figure");
+  workElement.dataset.id = work.categoryId;
+
+  const imageElement = document.createElement("img");
+  imageElement.src = work.imageUrl;
+  imageElement.alt = work.title;
+
+  const titleElement = document.createElement("figcaption");
+  titleElement.innerText = work.title ?? "(aucun titre)";
+
+  gallery.appendChild(workElement);
+  workElement.appendChild(imageElement);
+  workElement.appendChild(titleElement);
+}
+
 // async function to get the works from the API
 async function getWorks() {
   try {
@@ -13,27 +32,24 @@ async function getWorks() {
     console.log(works);
 
     works.forEach((workCard) => {
-      const workElement = document.createElement("figure");
-      workElement.dataset.id = workCard.categoryId;
-
-      const imageElement = document.createElement("img");
-      imageElement.src = workCard.imageUrl;
-      imageElement.alt = workCard.title;
-
-      const titleElement = document.createElement("figcaption");
-      titleElement.innerText = workCard.title ?? "(aucun titre)";
-
-      gallery.appendChild(workElement);
-      workElement.appendChild(imageElement);
-      workElement.appendChild(titleElement);
+      addWorkElement(workCard, gallery);
     });
   } catch (error) {
     console.error("Error fetching works:", error);
   }
 }
 
-//créer une fonction qui permet de créer une catégorie (avec un paramètre)
 // unshift pour ajouter un élément au début du tableau
+
+// function to add a category button to the filters
+function addCategory(category, filtersDiv) {
+  const buttonElement = document.createElement("button");
+  buttonElement.innerText = category.name;
+  buttonElement.dataset.id = category.id;
+  buttonElement.classList.add("filter");
+  filtersDiv.appendChild(buttonElement);
+  buttonElement.addEventListener("click", handleFilterClick);
+}
 
 // async function to get the categories filters from the API
 async function getCategories() {
@@ -53,19 +69,10 @@ async function getCategories() {
       .join(",");
     firstButtonElement.classList.add("filter", "filter--active");
     filtersDiv.appendChild(firstButtonElement);
+    firstButtonElement.addEventListener("click", handleFilterClick);
     // create a button for each category
     categories.forEach((category) => {
-      const buttonElement = document.createElement("button");
-      buttonElement.innerText = category.name;
-      buttonElement.dataset.id = category.id;
-      buttonElement.classList.add("filter");
-      filtersDiv.appendChild(buttonElement);
-    });
-
-    // add event listener to filter buttons
-    const filterButtons = document.querySelectorAll(".filter");
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", handleFilterClick);
+      addCategory(category, filtersDiv);
     });
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -96,3 +103,7 @@ function handleFilterClick(event) {
 
 getWorks();
 getCategories();
+
+
+
+
