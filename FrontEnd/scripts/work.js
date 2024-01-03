@@ -1,6 +1,7 @@
 // Here is the code to display the works and filter them by category
 
-
+// créer une fonction avec un paramètre pour créer l'élément 
+// 
 // async function to get the works from the API
 async function getWorks() {
   try {
@@ -30,6 +31,9 @@ async function getWorks() {
     console.error("Error fetching works:", error);
   }
 }
+
+//créer une fonction qui permet de créer une catégorie (avec un paramètre)
+// unshift pour ajouter un élément au début du tableau
 
 // async function to get the categories filters from the API
 async function getCategories() {

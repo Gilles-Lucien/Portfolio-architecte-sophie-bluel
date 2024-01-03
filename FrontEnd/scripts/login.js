@@ -24,6 +24,8 @@ function loginUser() {
       token && (window.location.href = "./index.html");
       // If token is undefined, alert the user
       token || alert("Invalid email or password");
+
+      // vérifier que response.ok est true 
     });
 }
 
