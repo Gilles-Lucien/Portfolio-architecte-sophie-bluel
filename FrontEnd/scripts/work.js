@@ -42,8 +42,6 @@ async function getWorks() {
   }
 }
 
-
-
 // function to add a category button to the filters
 function addCategory(category, filtersDiv) {
   const buttonElement = document.createElement("button");
@@ -104,9 +102,20 @@ function handleFilterClick(event) {
   });
 }
 
+// Check if token is defined in local storage
+if (localStorage.getItem("token") !== null) {
+  // Toggle off the .hidden class for elements with .editBar class
+  const editBars = document.querySelectorAll(".editBar");
+  editBars.forEach((editBar) => {
+    editBar.classList.remove("hidden");
+  });
+
+  // Toggle off the .hidden class for elements with .editButton class
+  const editButtons = document.querySelectorAll(".editButton");
+  editButtons.forEach((editButton) => {
+    editButton.classList.remove("hidden");
+  });
+}
+
 getWorks();
 getCategories();
-
-
-
-
