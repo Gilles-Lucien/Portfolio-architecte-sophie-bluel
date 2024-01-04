@@ -4,6 +4,9 @@
 // - création d'une fonction avec paramètre pour ajouter un élément de travail à la galerie
 // - création d'une fonction avec paramètre pour ajouter un bouton de catégorie aux filtres
 
+// tâches à réaliser :
+// - unshift pour ajouter un élément au début du tableau
+
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
   const workElement = document.createElement("figure");
@@ -39,7 +42,7 @@ async function getWorks() {
   }
 }
 
-// unshift pour ajouter un élément au début du tableau
+
 
 // function to add a category button to the filters
 function addCategory(category, filtersDiv) {
