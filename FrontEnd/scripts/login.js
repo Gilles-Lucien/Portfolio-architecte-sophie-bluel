@@ -15,17 +15,24 @@ function loginUser() {
       password: password,
     }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Network response was not ok.");
+      }
+    })
     .then((data) => {
       const token = data.token;
       // Store the token in localStorage
       localStorage.setItem("token", token);
       // Redirect to index.html if token is defined
       token && (window.location.href = "./index.html");
-      // If token is undefined, alert the user
-      token || alert("Invalid email or password");
-
-      // vérifier que response.ok est true 
+    
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Invalid email or password");
     });
 }
 
