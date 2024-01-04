@@ -6,6 +6,11 @@
 
 // tâches à réaliser :
 // - unshift pour ajouter un élément au début du tableau
+// supprimer les catégories lors du chargement en mode adimn
+
+
+// import functions from edit
+import { checkToken } from "./edit.js";
 
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
@@ -47,7 +52,7 @@ function addCategory(category, filtersDiv) {
   const buttonElement = document.createElement("button");
   buttonElement.innerText = category.name;
   buttonElement.dataset.id = category.id;
-  buttonElement.classList.add("filter");
+  buttonElement.classList.add("filter"); // if id === "all" ? "filter--active" : ""
   filtersDiv.appendChild(buttonElement);
   buttonElement.addEventListener("click", handleFilterClick);
 }
@@ -57,21 +62,11 @@ async function getCategories() {
   try {
     const response = await fetch("http://localhost:5678/api/categories");
     const categories = await response.json();
+    categories.unshift({ id: "all", name: "Tous" });
 
     console.log(categories);
 
     const filtersDiv = document.querySelector(".filters");
-    // create a unique button "all"
-    const firstButtonElement = document.createElement("button");
-    firstButtonElement.innerText = "Tous";
-    firstButtonElement.id = "all";
-    firstButtonElement.dataset.id = categories
-      .map((category) => category.id)
-      .join(",");
-    firstButtonElement.classList.add("filter", "filter--active");
-    filtersDiv.appendChild(firstButtonElement);
-    firstButtonElement.addEventListener("click", handleFilterClick);
-    // create a button for each category
     categories.forEach((category) => {
       addCategory(category, filtersDiv);
     });
@@ -95,27 +90,13 @@ function handleFilterClick(event) {
   // toggle hidden class on works
   const works = document.querySelectorAll(".gallery figure");
   works.forEach((work) => {
-    const isAllButton = buttonId === "all";
+    const isAllButton = categoryId === "all";
     const isMatchingCategory = work.dataset.id === categoryId;
-
     work.classList.toggle("hidden", !isAllButton && !isMatchingCategory);
   });
 }
 
-// Check if token is defined in local storage
-if (localStorage.getItem("token") !== null) {
-  // Toggle off the .hidden class for elements with .editBar class
-  const editBars = document.querySelectorAll(".editBar");
-  editBars.forEach((editBar) => {
-    editBar.classList.remove("hidden");
-  });
-
-  // Toggle off the .hidden class for elements with .editButton class
-  const editButtons = document.querySelectorAll(".editButton");
-  editButtons.forEach((editButton) => {
-    editButton.classList.remove("hidden");
-  });
-}
 
 getWorks();
 getCategories();
+checkToken();
