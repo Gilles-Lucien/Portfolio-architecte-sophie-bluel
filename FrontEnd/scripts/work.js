@@ -3,9 +3,9 @@
 // tâches réalisées depuis la dernière session :
 // - création d'une fonction avec paramètre pour ajouter un élément de travail à la galerie
 // - création d'une fonction avec paramètre pour ajouter un bouton de catégorie aux filtres
+// - unshift pour ajouter un élément au début du tableau
 
 // tâches à réaliser :
-// - unshift pour ajouter un élément au début du tableau
 // supprimer les catégories lors du chargement en mode adimn
 
 
