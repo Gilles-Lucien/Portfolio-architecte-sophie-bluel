@@ -8,9 +8,8 @@
 // tâches à réaliser :
 // supprimer les catégories lors du chargement en mode adimn
 
-
 // import functions from edit
-import { checkToken } from "./edit.js";
+import { checkToken, getWorksModal, handleEditButtonClick } from "./edit.js";
 
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
@@ -27,6 +26,7 @@ function addWorkElement(work, gallery) {
   gallery.appendChild(workElement);
   workElement.appendChild(imageElement);
   workElement.appendChild(titleElement);
+  
 }
 
 // async function to get the works from the API
@@ -52,9 +52,11 @@ function addCategory(category, filtersDiv) {
   const buttonElement = document.createElement("button");
   buttonElement.innerText = category.name;
   buttonElement.dataset.id = category.id;
-  buttonElement.classList.add("filter"); // if id === "all" ? "filter--active" : ""
+  buttonElement.classList.add("filter");
+  buttonElement.classList.toggle("filter--active", category.id === "all"); // toggle "filter--active" class if category id is "all"
   filtersDiv.appendChild(buttonElement);
   buttonElement.addEventListener("click", handleFilterClick);
+  checkToken();
 }
 
 // async function to get the categories filters from the API
@@ -96,7 +98,10 @@ function handleFilterClick(event) {
   });
 }
 
-
 getWorks();
 getCategories();
 checkToken();
+getWorksModal();
+
+
+export { getWorks, getCategories, addWorkElement, addCategory };
