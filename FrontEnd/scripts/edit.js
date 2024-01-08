@@ -46,16 +46,16 @@ function handleCloseButtonClick() {
 
 // function to handle the click on the left arrow
 function handleLeftArrowClick() {
-  const modal = document.querySelector("#modalPageOne");
-  const modalTwo = document.querySelector("#modalPageTwo");
+  const modal = document.querySelector(".modalPageOne");
+  const modalTwo = document.querySelector(".modalPageTwo");
   modal.classList.remove("hidden");
   modalTwo.classList.add("hidden");
 }
 
 // function to handle the click on the add work button
 function handleAddWorkButtonClick() {
-  const modal = document.querySelector("#modalPageOne");
-  const modalTwo = document.querySelector("#modalPageTwo");
+  const modal = document.querySelector(".modalPageOne");
+  const modalTwo = document.querySelector(".modalPageTwo");
   modal.classList.add("hidden");
   modalTwo.classList.remove("hidden");
 }
