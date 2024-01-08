@@ -7,7 +7,7 @@
 
 // tâches à réaliser :
 
-// import functions from edit
+// import functions from work.js
 import {
   getWorks,
   getCategories,
@@ -16,7 +16,7 @@ import {
 } from "./work.js";
 
 // function to handle the click on a edit button
-function handleEditButtonClick(event) {
+function handleEditButtonClick() {
   const modal = document.querySelector(".modal");
   const modalBackground = document.querySelector(".modal__background");
   modal.classList.remove("hidden");
@@ -107,7 +107,7 @@ async function getWorksModal() {
       i.classList.add("fa-solid", "fa-trash-can", "suppr");
 
       // Add event listener to the <i> element
-      i.addEventListener("click", () => {
+      i.addEventListener("click", (event) => {
         handleWorkDeletion(figure);
       });
 
