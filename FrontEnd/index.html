@@ -130,7 +130,7 @@
 		</nav>
 	</footer>
 	<!-- modal -->
-	<aside class="modal hidden" id="modalPageOne">
+	<aside class="modal hidden modalPageOne">
 		<i class="fa-solid fa-xmark close"></i>
 		<h2 class="modal__title ">Galerie photo</h2>
 		<div class="modal__gallery ">
@@ -140,18 +140,34 @@
 		<button class="modal__button" id="addWork">Ajouter une photo</button>
 	</aside>
 
-	<aside class="modal hidden" id="modalPageTwo">
+	<aside class="modal hidden modalPageTwo">
 		<i class="fa-solid fa-arrow-left"></i>
 		<i class="fa-solid fa-xmark close"></i>
 		<h2 class="modal__title ">Ajout photo</h2>
-		<form class="modal__addForm ">
+		<form class="modal__addForm">
 			<div class="addPicture">
-				<i class="fa-regular fa-image"></i>
+				<i class="fa-regular fa-image" id="fa-picture"></i>
 				<button class="modal__button" id="addPictureButton">+ Ajouter photo</button>
 				<p>jpg, png: 4mo max</p>
 			</div>
+			<label for="title">Titre</label>
+			<input type="text" name="title" id="title">
+			<label for="category">Catégorie</label>
+			<select name="category" id="category">
+				<option value="1">Abajour Tahina</option>
+				<option value="2">Appartement Paris V</option>
+				<option value="3">Restaurant Sushisen - Londres</option>
+				<option value="4">Villa “La Balisiere” - Port Louis</option>
+				<option value="5">Structures Thermopolis</option>
+				<option value="6">Appartement Paris X</option>
+				<option value="7">Pavillon “Le coteau” - Cassis</option>
+				<option value="8">Villa Ferneze - Isola d’Elba</option>
+				<option value="9">Appartement Paris XVIII</option>
+				<option value="10">Bar “Lullaby” - Paris</option>
+				<option value="11">Hotel First Arte - New Delhi</option>
+			</select>
 		</form>
-
+		<div class="stroke"></div>
 		<button class="modal__button innactive" id="send">Valider</button>
 	</aside>
 
