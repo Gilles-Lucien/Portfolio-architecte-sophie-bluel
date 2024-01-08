@@ -15,6 +15,17 @@ import {
   addCategory,
 } from "./work.js";
 
+
+// Create an event listener on the modal's close buttons
+const closeButtons = document.querySelectorAll(".close");
+closeButtons.forEach((closeButton) => {
+  closeButton.addEventListener("click", handleCloseButtonClick);
+});
+
+// Create an event listener on the modal's left arrow
+const leftArrow = document.querySelector(".fa-arrow-left");
+leftArrow.addEventListener("click", handleLeftArrowClick);
+
 // function to handle the click on a edit button
 function handleEditButtonClick() {
   const modal = document.querySelector(".modal");
@@ -25,14 +36,31 @@ function handleEditButtonClick() {
 
 // function to handle the click on the close button
 function handleCloseButtonClick() {
-  const modal = document.querySelector(".modal");
   const modalBackground = document.querySelector(".modal__background");
-  modal.classList.add("hidden");
   modalBackground.classList.add("hidden");
+  const modals = document.querySelectorAll(".modal:not(.hidden)");
+  modals.forEach((modal) => {
+    modal.classList.add("hidden");
+  });
 }
 
-const closeButton = document.querySelector(".close");
-closeButton.addEventListener("click", handleCloseButtonClick);
+// function to handle the click on the left arrow
+function handleLeftArrowClick() {
+  const modal = document.querySelector("#modalPageOne");
+  const modalTwo = document.querySelector("#modalPageTwo");
+  modal.classList.remove("hidden");
+  modalTwo.classList.add("hidden");
+}
+
+// function to handle the click on the add work button
+function handleAddWorkButtonClick() {
+  const modal = document.querySelector("#modalPageOne");
+  const modalTwo = document.querySelector("#modalPageTwo");
+  modal.classList.add("hidden");
+  modalTwo.classList.remove("hidden");
+}
+
+
 
 // Check if token is defined in local storage and display edit mode if it is
 function checkToken() {
@@ -115,6 +143,8 @@ async function getWorksModal() {
       figure.appendChild(img);
       figure.appendChild(i);
     });
+    const addWorkButton = document.querySelector("#addWork");
+    addWorkButton.addEventListener("click", handleAddWorkButtonClick);
 
     console.log(works);
   } catch (error) {
@@ -137,7 +167,16 @@ function handleWorkDeletion(figure) {
     .then((response) => {
       if (response.ok) {
         console.log("Work deleted successfully");
+        // remove the img from the modal
         figure.remove();
+        // remove the img from the gallery
+        const gallery = document.querySelector(".gallery");
+        const figures = gallery.querySelectorAll("figure");
+        figures.forEach((figure) => {
+          if (figure.dataset.id === workId) {
+            figure.remove();
+          }
+        });
       } else {
         console.error("Failed to delete work");
       }
@@ -146,5 +185,6 @@ function handleWorkDeletion(figure) {
       console.error("Error deleting work:", error);
     });
 }
+
 
 export { checkToken, handleEditButtonClick, getWorksModal };
