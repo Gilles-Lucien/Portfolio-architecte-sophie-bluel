@@ -463,6 +463,25 @@ footer nav ul {
   cursor: pointer;
 }
 
+.addPicture {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #E8F1F6;
+  border-radius: 3px;
+  color: #B9C5CC;
+
+}
+
+#addPictureButton {
+background: #CBD6DC;
+}
+
+.innactive {
+  background: #A7A7A7;;
+}
+
 .stroke {
   width: 430px;
   height: 1px;
@@ -476,6 +495,14 @@ footer nav ul {
   position: absolute;
   top: 30px;
   right: 30px;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+.fa-arrow-left {
+  position: absolute;
+  top: 30px;
+  left: 30px;
   cursor: pointer;
   font-size: 2em;
 }
