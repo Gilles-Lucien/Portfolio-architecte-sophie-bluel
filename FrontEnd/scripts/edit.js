@@ -46,6 +46,25 @@ function handleCloseButtonClick() {
   modals.forEach((modal) => {
     modal.classList.add("hidden");
   });
+  //clear the form
+  const form = document.querySelector(".modal__addForm");
+  form.reset();
+  //clear the preview
+  const preview = document.querySelector("#preview");
+  preview.src = "";
+  //toggle off the hidden class for elements that must appear or disappear once the picture is loaded
+  const addPictureLabel = document.querySelector(".addPictureLabel");
+  addPictureLabel.classList.remove("hidden");
+  const previewImg = document.querySelector("#preview");
+  previewImg.classList.add("hidden");
+  const faPicture = document.querySelector(".fa-picture");
+  faPicture.classList.remove("hidden");
+  const p = document.querySelector(".addPicture p");
+  p.classList.remove("hidden");
+  // add innactive class and disabled attribute to the submit button
+  const modalButton = document.querySelector("#submit");
+  modalButton.classList.add("innactive");
+  modalButton.setAttribute("disabled", "");
 }
 
 // function to handle the click on the left arrow
@@ -259,7 +278,6 @@ addPictureDiv.addEventListener("click", function () {
   addPictureLabel.click();
 });
 
-
 // // check if the form is valid before sending the POST request to the API
 // Get the input elements
 
@@ -290,7 +308,6 @@ addPictureInput.addEventListener("blur", validateForm);
 titleInput.addEventListener("blur", validateForm);
 categorySelect.addEventListener("blur", validateForm);
 
-
 ////////// WAR ZONE BELOW //////////
 /////////Everything below is not approved yet/////////
 ///////////////////////////////
@@ -298,46 +315,64 @@ categorySelect.addEventListener("blur", validateForm);
 ///////////////////////////////
 ///////////////////////////////
 
-// //// POST request to the API
+//// POST request to the API
 
-// // Get the form element
-// const form = document.querySelector(".modal__addForm");
+// Get the form element
+const form = document.querySelector(".modal__addForm");
 
-// // Add an event listener to the form's submit event
-// form.addEventListener("submit", async (event) => {
-//   event.preventDefault(); // Prevent the default form submission
+// Add an event listener to the form's submit event
+form.addEventListener("submit", async (event) => {
+  event.preventDefault(); // Prevent the default form submission
 
-//   // Get the form data
-//   const formData = new FormData(form);
-//   console.log(formData);
-//   // Get the token from local storage
-//   const token = localStorage.getItem("token");
-//   if (token) {
-//     // Set the token in the request headers
-//     const headers = new Headers();
-//     headers.append("Authorization", `Bearer ${token}`);
+  // Get the form data
+  const formData = new FormData(form);
 
-//     try {
-//       // Send a POST request to the API endpoint with the token
-//       const response = await fetch(`${API_URL}/works`, {
-//         method: "POST",
-//         body: formData,
-//         headers: headers,
-//       });
-//       console.log(response);
-//       if (response.ok) {
-//         // Data posted successfully
-//         console.log("Data posted successfully");
-//       } else {
-//         // Error occurred while posting data
-//         console.error("Error occurred while posting data");
-//       }
-//     } catch (error) {
-//       console.error("Error occurred while posting data:", error);
-//     }
-//   } else {
-//     console.error("Token not found in local storage");
-//   }
-// });
+  // fetch the works from the API
+  const response = await fetch(`${API_URL}/works`);
+  const works = await response.json();
+
+  // Get the last id from the array works
+  const lastId = works[works.length - 1].id;
+
+  // Increment the id for the new work
+  const newId = lastId + 1;
+
+  // Get the userId from local storage
+  const userId = localStorage.getItem("userId");
+
+  // Add the id and userId to the formData object
+  formData.append("id", newId);
+  formData.append("userId", userId);
+
+  console.log(formData);
+  // Get the token from local storage
+  const token = localStorage.getItem("token");
+  if (token) {
+    // Set the token in the request headers
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
+
+    try {
+      // Send a POST request to the API endpoint with the token
+      const response = await fetch(`${API_URL}/works`, {
+        method: "POST",
+        body: formData,
+        headers: headers,
+      });
+      console.log(response);
+      if (response.ok) {
+        // Data posted successfully
+        console.log("Data posted successfully");
+      } else {
+        // Error occurred while posting data
+        console.error("Error occurred while posting data");
+      }
+    } catch (error) {
+      console.error("Error occurred while posting data:", error);
+    }
+  } else {
+    console.error("Token not found in local storage");
+  }
+});
 
 export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal };
