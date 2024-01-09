@@ -11,6 +11,9 @@
 // import functions from edit
 import { checkToken, getWorksModal, handleEditButtonClick, getCategoriesModal } from "./edit.js";
 
+// API URL variable
+const API_URL = "http://localhost:5678/api";
+
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
   const workElement = document.createElement("figure");
@@ -32,7 +35,7 @@ function addWorkElement(work, gallery) {
 // async function to get the works from the API
 async function getWorks() {
   try {
-    const response = await fetch("http://localhost:5678/api/works");
+    const response = await fetch(`${API_URL}/works`);
     const works = await response.json();
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = "";
@@ -60,9 +63,10 @@ function addCategory(category, filtersDiv) {
 }
 
 // async function to get the categories filters from the API
+
 async function getCategories() {
   try {
-    const response = await fetch("http://localhost:5678/api/categories");
+    const response = await fetch(`${API_URL}/categories`);
     const categories = await response.json();
     categories.unshift({ id: "all", name: "Tous" });
 
