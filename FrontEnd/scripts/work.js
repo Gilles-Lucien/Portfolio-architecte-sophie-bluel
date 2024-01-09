@@ -9,7 +9,7 @@
 // supprimer les catégories lors du chargement en mode adimn
 
 // import functions from edit
-import { checkToken, getWorksModal, handleEditButtonClick } from "./edit.js";
+import { checkToken, getWorksModal, handleEditButtonClick, getCategoriesModal } from "./edit.js";
 
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
@@ -102,6 +102,7 @@ getWorks();
 getCategories();
 checkToken();
 getWorksModal();
+getCategoriesModal();
 
 
 export { getWorks, getCategories, addWorkElement, addCategory };
