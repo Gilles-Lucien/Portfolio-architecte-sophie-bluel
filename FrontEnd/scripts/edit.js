@@ -15,7 +15,6 @@ import {
   addCategory,
 } from "./work.js";
 
-
 // Create an event listener on the modal's close buttons and the modal's background
 const closeButtons = document.querySelectorAll(".close");
 closeButtons.forEach((closeButton) => {
@@ -34,7 +33,6 @@ function handleEditButtonClick() {
   const modalBackground = document.querySelector(".modal__background");
   modal.classList.remove("hidden");
   modalBackground.classList.remove("hidden");
-  
 }
 
 // function to handle the click on the close button
@@ -62,8 +60,6 @@ function handleAddWorkButtonClick() {
   modal.classList.add("hidden");
   modalTwo.classList.remove("hidden");
 }
-
-
 
 // Check if token is defined in local storage and display edit mode if it is
 function checkToken() {
@@ -223,11 +219,6 @@ function displayImage(input) {
     reader.readAsDataURL(input.files[0]);
 
     // toggle off and on hidden class for elements that must appear or disappear once the picture is loaded
-    // vider le texte de .addPictureLabel
-    //retirer hidden de #preview
-    //ajouter hidder à .fa-picture
-    // ajouter hidden au p 
-
     const addPictureLabel = document.querySelector(".addPictureLabel");
     addPictureLabel.classList.add("hidden");
     const preview = document.querySelector("#preview");
@@ -236,17 +227,116 @@ function displayImage(input) {
     faPicture.classList.add("hidden");
     const p = document.querySelector(".addPicture p");
     p.classList.add("hidden");
-
   }
 }
 
+
+// prevent the first click on the addPicture button to trigger the displayImage function twice
+let isFirstClick = true;
+
 // Call the displayImage function when a file is loaded via #addPictureInput
 const addPictureInput = document.querySelector("#addPictureInput");
-addPictureInput.addEventListener("change", function() {
+addPictureInput.addEventListener("change", function () {
+  // prevent the first click on the addPicture button to trigger the displayImage function twice
+  if (isFirstClick) {
+    isFirstClick = false;
+    return;
+  }
   displayImage(this);
 });
 
+// Trigger click event on .addPictureLabel when .addPicture is clicked
+const addPictureDiv = document.querySelector(".addPicture");
+const addPictureLabel = document.querySelector(".addPictureLabel");
+addPictureDiv.addEventListener("click", function () {
+  // prevent the first click on the addPicture button to trigger the displayImage function twice
+  if (isFirstClick) {
+    isFirstClick = false;
+    return;
+  }
+  addPictureLabel.click();
+});
 
 
+////////// WAR ZONE BELOW //////////
+/////////Everything below is not approved yet/////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+
+
+// // check if the form is valid before sending the POST request to the API
+// // Get the input elements
+// const addPictureInput = document.querySelector("#addPictureInput");
+// const titleInput = document.querySelector("#title");
+// const categorySelect = document.querySelector("#category");
+
+// // Add event listeners to the input elements
+// addPictureInput.addEventListener("blur", validateForm);
+// titleInput.addEventListener("blur", validateForm);
+// categorySelect.addEventListener("blur", validateForm);
+
+// // Function to validate the form
+// function validateForm() {
+//   // Check if all required fields are filled
+//   const isFormValid = addPictureInput.value && titleInput.value && categorySelect.value;
+
+//   // Get the modal button element
+//   const modalButton = document.querySelector(".modal__button");
+
+//   if (isFormValid) {
+//     // Remove the "inactive" class and the "disabled" attribute
+//     modalButton.classList.remove("inactive");
+//     modalButton.removeAttribute("disabled");
+//   } else {
+//     // Add the "inactive" class and set the "disabled" attribute
+//     modalButton.classList.add("inactive");
+//     modalButton.setAttribute("disabled", "disabled");
+//   }
+// }
+
+
+// //// POST request to the API
+
+// // Get the form element
+// const form = document.querySelector(".modal__addForm");
+
+// // Add an event listener to the form's submit event
+// form.addEventListener("submit", async (event) => {
+//   event.preventDefault(); // Prevent the default form submission
+
+//   // Get the form data
+//   const formData = new FormData(form);
+//   console.log(formData);
+//   // Get the token from local storage
+//   const token = localStorage.getItem("token");
+//   if (token) {
+//     // Set the token in the request headers
+//     const headers = new Headers();
+//     headers.append("Authorization", `Bearer ${token}`);
+
+//     try {
+//       // Send a POST request to the API endpoint with the token
+//       const response = await fetch("http://localhost:5678/api/works", {
+//         method: "POST",
+//         body: formData,
+//         headers: headers,
+//       });
+//       console.log(response);
+//       if (response.ok) {
+//         // Data posted successfully
+//         console.log("Data posted successfully");
+//       } else {
+//         // Error occurred while posting data
+//         console.error("Error occurred while posting data");
+//       }
+//     } catch (error) {
+//       console.error("Error occurred while posting data:", error);
+//     }
+//   } else {
+//     console.error("Token not found in local storage");
+//   }
+// });
 
 export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal };
