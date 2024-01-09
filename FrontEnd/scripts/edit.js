@@ -259,17 +259,10 @@ addPictureDiv.addEventListener("click", function () {
   addPictureLabel.click();
 });
 
-////////// WAR ZONE BELOW //////////
-/////////Everything below is not approved yet/////////
-///////////////////////////////
-///////////////////////////////
-///////////////////////////////
-///////////////////////////////
-
 
 // // check if the form is valid before sending the POST request to the API
 // Get the input elements
-// const addPictureInput = document.querySelector("#addPictureInput");
+
 const titleInput = document.querySelector("#title");
 const categorySelect = document.querySelector("#category");
 const modalButton = document.querySelector("#submit");
@@ -277,7 +270,7 @@ const modalButton = document.querySelector("#submit");
 // Function to validate the form
 function validateForm() {
   // Check if all required fields are filled
-  const isFormValid = Boolean(addPictureInput.value && titleInput.value && categorySelect.value);
+  const isFormValid = Boolean(addPictureInput.value && titleInput.value);
   console.log(isFormValid);
   console.log(addPictureInput.value);
   console.log(titleInput.value);
@@ -286,21 +279,24 @@ function validateForm() {
     // Remove the "inactive" class and the "disabled" attribute
     modalButton.classList.remove("innactive");
     modalButton.removeAttribute("disabled");
+  } else {
+    // Add the "inactive" class and the "disabled" attribute
+    modalButton.classList.add("innactive");
+    modalButton.setAttribute("disabled", "");
   }
 }
+// Add an event listener to the input elements
+addPictureInput.addEventListener("blur", validateForm);
+titleInput.addEventListener("blur", validateForm);
+categorySelect.addEventListener("blur", validateForm);
 
-// Function to add blur event listeners
-function addBlurEventListeners() {
-  // Add event listeners to the input elements
-  addPictureInput.addEventListener("blur", validateForm);
-  titleInput.addEventListener("blur", validateForm);
-  categorySelect.addEventListener("blur", validateForm);
-}
 
-// Call the addBlurEventListeners function when the input elements are unfocused
-addPictureInput.addEventListener("blur", addBlurEventListeners);
-titleInput.addEventListener("blur", addBlurEventListeners);
-categorySelect.addEventListener("blur", addBlurEventListeners);
+////////// WAR ZONE BELOW //////////
+/////////Everything below is not approved yet/////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
 
 // //// POST request to the API
 
