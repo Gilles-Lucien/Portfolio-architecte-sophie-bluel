@@ -15,6 +15,9 @@ import {
   addCategory,
 } from "./work.js";
 
+// API URL variable
+const API_URL = "http://localhost:5678/api";
+
 // Create an event listener on the modal's close buttons and the modal's background
 const closeButtons = document.querySelectorAll(".close");
 closeButtons.forEach((closeButton) => {
@@ -118,7 +121,7 @@ function checkToken() {
 // function du get works to display in the modal
 async function getWorksModal() {
   try {
-    const response = await fetch("http://localhost:5678/api/works");
+    const response = await fetch(`${API_URL}/works`);
     const works = await response.json();
 
     const modal__gallery = document.querySelector(".modal__gallery");
@@ -157,7 +160,7 @@ function handleWorkDeletion(figure) {
   const token = localStorage.getItem("token"); // Get the token from local storage
 
   // Send a DELETE request to the backend with the token
-  fetch(`http://localhost:5678/api/works/${workId}`, {
+  fetch(`${API_URL}/works/${workId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -188,7 +191,7 @@ function handleWorkDeletion(figure) {
 // function to fetch the categories and display them in the modal <select>
 async function getCategoriesModal() {
   try {
-    const response = await fetch("http://localhost:5678/api/categories");
+    const response = await fetch(`${API_URL}/categories`);
     const categories = await response.json();
 
     const modal__select = document.querySelector("#category");
@@ -230,7 +233,6 @@ function displayImage(input) {
   }
 }
 
-
 // prevent the first click on the addPicture button to trigger the displayImage function twice
 let isFirstClick = true;
 
@@ -257,7 +259,6 @@ addPictureDiv.addEventListener("click", function () {
   addPictureLabel.click();
 });
 
-
 ////////// WAR ZONE BELOW //////////
 /////////Everything below is not approved yet/////////
 ///////////////////////////////
@@ -267,35 +268,39 @@ addPictureDiv.addEventListener("click", function () {
 
 
 // // check if the form is valid before sending the POST request to the API
-// // Get the input elements
+// Get the input elements
 // const addPictureInput = document.querySelector("#addPictureInput");
-// const titleInput = document.querySelector("#title");
-// const categorySelect = document.querySelector("#category");
+const titleInput = document.querySelector("#title");
+const categorySelect = document.querySelector("#category");
+const modalButton = document.querySelector("#submit");
 
-// // Add event listeners to the input elements
-// addPictureInput.addEventListener("blur", validateForm);
-// titleInput.addEventListener("blur", validateForm);
-// categorySelect.addEventListener("blur", validateForm);
+// Function to validate the form
+function validateForm() {
+  // Check if all required fields are filled
+  const isFormValid = Boolean(addPictureInput.value && titleInput.value && categorySelect.value);
+  console.log(isFormValid);
+  console.log(addPictureInput.value);
+  console.log(titleInput.value);
 
-// // Function to validate the form
-// function validateForm() {
-//   // Check if all required fields are filled
-//   const isFormValid = addPictureInput.value && titleInput.value && categorySelect.value;
+  if (isFormValid) {
+    // Remove the "inactive" class and the "disabled" attribute
+    modalButton.classList.remove("innactive");
+    modalButton.removeAttribute("disabled");
+  }
+}
 
-//   // Get the modal button element
-//   const modalButton = document.querySelector(".modal__button");
+// Function to add blur event listeners
+function addBlurEventListeners() {
+  // Add event listeners to the input elements
+  addPictureInput.addEventListener("blur", validateForm);
+  titleInput.addEventListener("blur", validateForm);
+  categorySelect.addEventListener("blur", validateForm);
+}
 
-//   if (isFormValid) {
-//     // Remove the "inactive" class and the "disabled" attribute
-//     modalButton.classList.remove("inactive");
-//     modalButton.removeAttribute("disabled");
-//   } else {
-//     // Add the "inactive" class and set the "disabled" attribute
-//     modalButton.classList.add("inactive");
-//     modalButton.setAttribute("disabled", "disabled");
-//   }
-// }
-
+// Call the addBlurEventListeners function when the input elements are unfocused
+addPictureInput.addEventListener("blur", addBlurEventListeners);
+titleInput.addEventListener("blur", addBlurEventListeners);
+categorySelect.addEventListener("blur", addBlurEventListeners);
 
 // //// POST request to the API
 
@@ -318,7 +323,7 @@ addPictureDiv.addEventListener("click", function () {
 
 //     try {
 //       // Send a POST request to the API endpoint with the token
-//       const response = await fetch("http://localhost:5678/api/works", {
+//       const response = await fetch(`${API_URL}/works`, {
 //         method: "POST",
 //         body: formData,
 //         headers: headers,
