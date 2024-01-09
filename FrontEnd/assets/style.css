@@ -530,7 +530,34 @@ label {
   margin: 10px auto;
 }
 
-#fa-picture {
+.addPictureLabel {
+  background: #cbd6dc;
+  color: #306685;
+  text-align: center;
+  font-family: Work Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 10px auto;
+  border-radius: 60px;
+  height: 36px;
+  width: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addPictureInput {
+  display: none;
+}
+
+#preview {
+width: 100%;
+height: 100%;
+}
+
+.fa-picture {
   font-size: 4em;
   margin-bottom: 10px;
   margin-top: 20px;
@@ -582,5 +609,6 @@ label {
 }
 
 .hidden {
-  display: none;
+  all: unset;
+  display: none !important;
 }
