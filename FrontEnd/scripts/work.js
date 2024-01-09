@@ -108,5 +108,7 @@ checkToken();
 getWorksModal();
 getCategoriesModal();
 
+console.log(`token: ${localStorage.getItem("token")}`);
+console.log(`userId: ${localStorage.getItem("userId")}`);
 
 export { getWorks, getCategories, addWorkElement, addCategory };
