@@ -308,14 +308,8 @@ addPictureInput.addEventListener("blur", validateForm);
 titleInput.addEventListener("blur", validateForm);
 categorySelect.addEventListener("blur", validateForm);
 
-////////// WAR ZONE BELOW //////////
-/////////Everything below is not approved yet/////////
-///////////////////////////////
-///////////////////////////////
-///////////////////////////////
-///////////////////////////////
 
-//// POST request to the API
+//// POST request to the API to add a work
 
 // Get the form element
 const form = document.querySelector(".modal__addForm");
@@ -326,25 +320,16 @@ form.addEventListener("submit", async (event) => {
 
   // Get the form data
   const formData = new FormData(form);
+  const imageFile = formData.get("file");
+  const title = formData.get("title");
+  const category = formData.get("category");
 
-  // fetch the works from the API
-  const response = await fetch(`${API_URL}/works`);
-  const works = await response.json();
+  // Create a new FormData object to match the API schema
+  const apiFormData = new FormData();
+  apiFormData.append("image", imageFile);
+  apiFormData.append("title", title);
+  apiFormData.append("category", category);
 
-  // Get the last id from the array works
-  const lastId = works[works.length - 1].id;
-
-  // Increment the id for the new work
-  const newId = lastId + 1;
-
-  // Get the userId from local storage
-  const userId = localStorage.getItem("userId");
-
-  // Add the id and userId to the formData object
-  formData.append("id", newId);
-  formData.append("userId", userId);
-
-  console.log(formData);
   // Get the token from local storage
   const token = localStorage.getItem("token");
   if (token) {
@@ -356,13 +341,33 @@ form.addEventListener("submit", async (event) => {
       // Send a POST request to the API endpoint with the token
       const response = await fetch(`${API_URL}/works`, {
         method: "POST",
-        body: formData,
+        body: apiFormData,
         headers: headers,
       });
       console.log(response);
       if (response.ok) {
         // Data posted successfully
         console.log("Data posted successfully");
+        // Add the work to the gallery
+        const work = await response.json();
+        addWorkElement(work, document.querySelector(".gallery"));
+        // Add the work to the modal
+        const modal__gallery = document.querySelector(".modal__gallery");
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const i = document.createElement("i");
+        img.src = work.imageUrl;
+        figure.dataset.id = work.id;
+        i.classList.add("fa-solid", "fa-trash-can", "suppr");
+        i.addEventListener("click", (event) => {
+          handleWorkDeletion(figure);
+        });
+        modal__gallery.appendChild(figure);
+        figure.appendChild(img);
+        figure.appendChild(i);
+        // Close the modal
+        handleCloseButtonClick();
+
       } else {
         // Error occurred while posting data
         console.error("Error occurred while posting data");
