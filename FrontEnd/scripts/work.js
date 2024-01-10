@@ -17,8 +17,9 @@ const API_URL = "http://localhost:5678/api";
 // function to add a work element to the gallery
 function addWorkElement(work, gallery) {
   const workElement = document.createElement("figure");
-  workElement.dataset.id = work.categoryId;
-
+  workElement.dataset.category = work.categoryId;
+  workElement.dataset.id = work.id;
+  
   const imageElement = document.createElement("img");
   imageElement.src = work.imageUrl;
   imageElement.alt = work.title;
@@ -54,7 +55,7 @@ async function getWorks() {
 function addCategory(category, filtersDiv) {
   const buttonElement = document.createElement("button");
   buttonElement.innerText = category.name;
-  buttonElement.dataset.id = category.id;
+  buttonElement.dataset.category = category.id;
   buttonElement.classList.add("filter");
   buttonElement.classList.toggle("filter--active", category.id === "all"); // toggle "filter--active" class if category id is "all"
   filtersDiv.appendChild(buttonElement);
@@ -83,7 +84,7 @@ async function getCategories() {
 
 // function to handle the click on a filter button
 function handleFilterClick(event) {
-  const categoryId = event.target.dataset.id;
+  const categoryId = event.target.dataset.category;
   const buttonId = event.target.id;
   console.log("Filter button clicked:", categoryId);
 
@@ -97,7 +98,7 @@ function handleFilterClick(event) {
   const works = document.querySelectorAll(".gallery figure");
   works.forEach((work) => {
     const isAllButton = categoryId === "all";
-    const isMatchingCategory = work.dataset.id === categoryId;
+    const isMatchingCategory = work.dataset.category === categoryId;
     work.classList.toggle("hidden", !isAllButton && !isMatchingCategory);
   });
 }
