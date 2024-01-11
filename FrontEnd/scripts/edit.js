@@ -9,10 +9,7 @@
 
 // import functions from work.js
 import {
-  getWorks,
-  getCategories,
   addWorkElement,
-  addCategory,
 } from "./work.js";
 
 // API URL variable
@@ -371,12 +368,15 @@ form.addEventListener("submit", async (event) => {
       } else {
         // Error occurred while posting data
         console.error("Error occurred while posting data");
+        alert("Error occurred while posting data");
       }
     } catch (error) {
       console.error("Error occurred while posting data:", error);
+      alert("Error occurred while posting data");
     }
   } else {
     console.error("Token not found in local storage");
+    alert("Token not found in local storage");
   }
 });
 
