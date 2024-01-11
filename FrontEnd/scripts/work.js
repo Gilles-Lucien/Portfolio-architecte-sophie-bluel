@@ -6,50 +6,18 @@
 // - unshift pour ajouter un élément au début du tableau
 
 // tâches à réaliser :
-// supprimer les catégories lors du chargement en mode adimn
+//
 
 // import functions from edit
-import { checkToken, getWorksModal, handleEditButtonClick, getCategoriesModal } from "./edit.js";
+import { checkToken, getWorksModal, getCategoriesModal} from "./edit.js";
+import { getWorks, works, addWorkElement} from "./callAPI.js";
 
 // API URL variable
 const API_URL = "http://localhost:5678/api";
 
-// function to add a work element to the gallery
-function addWorkElement(work, gallery) {
-  const workElement = document.createElement("figure");
-  workElement.dataset.category = work.categoryId;
-  workElement.dataset.id = work.id;
-  
-  const imageElement = document.createElement("img");
-  imageElement.src = work.imageUrl;
-  imageElement.alt = work.title;
 
-  const titleElement = document.createElement("figcaption");
-  titleElement.innerText = work.title ?? "(aucun titre)";
 
-  gallery.appendChild(workElement);
-  workElement.appendChild(imageElement);
-  workElement.appendChild(titleElement);
-  
-}
 
-// async function to get the works from the API
-async function getWorks() {
-  try {
-    const response = await fetch(`${API_URL}/works`);
-    const works = await response.json();
-    const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
-
-    console.log(works);
-
-    works.forEach((workCard) => {
-      addWorkElement(workCard, gallery);
-    });
-  } catch (error) {
-    console.error("Error fetching works:", error);
-  }
-}
 
 // function to add a category button to the filters
 function addCategory(category, filtersDiv) {
