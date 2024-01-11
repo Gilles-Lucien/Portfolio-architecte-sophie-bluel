@@ -1,16 +1,19 @@
 // Here is the code to display the edit mode and to edit the works
 
 // tâches réalisées depuis la dernière session :
-// - création du bouton logout, nettoyage du localstorage on click
-// - suppression des catégories lors du chargement en mode adimn
-// - création de la modal
 
 // tâches à réaliser :
+// - restreindre l'upload de fichier aux seuls images, avec une contrainte de taille (4mo)
+// - ligne 100 et 131 ne pas utiliser une boucle pour masquer lesfiltres, uniquement ajouter classe hidden sur la div qui les contient
+// - ne pas faire d'appel à l'api pour le catégories de la modale, mais utiliser une variable contenant les catégories que l'on mettra en paramètre de la fonction addCategory
 
 // import functions from work.js
 import {
   addWorkElement,
 } from "./work.js";
+
+import {works, getWorks} from "./callAPI.js";
+
 
 // API URL variable
 const API_URL = "http://localhost:5678/api";
@@ -33,6 +36,8 @@ function handleEditButtonClick() {
   const modalBackground = document.querySelector(".modal__background");
   modal.classList.remove("hidden");
   modalBackground.classList.remove("hidden");
+  getWorks();
+  getWorksModal();
 }
 
 // function to handle the click on the close button
@@ -137,8 +142,6 @@ function checkToken() {
 // function du get works to display in the modal
 async function getWorksModal() {
   try {
-    const response = await fetch(`${API_URL}/works`);
-    const works = await response.json();
 
     const modal__gallery = document.querySelector(".modal__gallery");
     modal__gallery.innerHTML = "";
@@ -379,5 +382,6 @@ form.addEventListener("submit", async (event) => {
     alert("Token not found in local storage");
   }
 });
+
 
 export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal };
