@@ -1,23 +1,11 @@
 // Here is the code to display the works and filter them by category
 
-// tâches réalisées depuis la dernière session :
-// - création d'une fonction avec paramètre pour ajouter un élément de travail à la galerie
-// - création d'une fonction avec paramètre pour ajouter un bouton de catégorie aux filtres
-// - unshift pour ajouter un élément au début du tableau
-
-// tâches à réaliser :
-//
-
 // import functions from edit
-import { checkToken, getWorksModal, getCategoriesModal} from "./edit.js";
-import { getWorks, works, addWorkElement} from "./callAPI.js";
+import { checkToken, getWorksModal, getCategoriesModal } from "./edit.js";
+import { getWorks, addWorkElement } from "./callAPI.js";
 
 // API URL variable
 const API_URL = "http://localhost:5678/api";
-
-
-
-
 
 // function to add a category button to the filters
 function addCategory(category, filtersDiv) {
@@ -38,9 +26,6 @@ async function getCategories() {
     const response = await fetch(`${API_URL}/categories`);
     const categories = await response.json();
     categories.unshift({ id: "all", name: "Tous" });
-
-    console.log(categories);
-
     const filtersDiv = document.querySelector(".filters");
     categories.forEach((category) => {
       addCategory(category, filtersDiv);
@@ -54,7 +39,6 @@ async function getCategories() {
 function handleFilterClick(event) {
   const categoryId = event.target.dataset.category;
   const buttonId = event.target.id;
-  console.log("Filter button clicked:", categoryId);
 
   // toggle active class on filter buttons
   const filterButtons = document.querySelectorAll(".filter");
@@ -76,8 +60,5 @@ getCategories();
 checkToken();
 getWorksModal();
 getCategoriesModal();
-
-console.log(`token: ${localStorage.getItem("token")}`);
-console.log(`userId: ${localStorage.getItem("userId")}`);
 
 export { getWorks, getCategories, addWorkElement, addCategory };
