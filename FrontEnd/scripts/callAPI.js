@@ -84,8 +84,8 @@ function handleWorkDeletion(figure) {
   })
     .then((response) => {
       if (response.ok) {
-        // update works array to delete the work from it
-        works = works.filter((work) => work.id !== workId);
+        // update works array to delete the specific work from the array
+        works.splice(works.findIndex(work => work.id === workId), 1);
         // remove the img from the modal
         figure.remove();
         // remove the img from the gallery
