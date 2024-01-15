@@ -1,17 +1,17 @@
 // Here is the code to display the edit mode and to edit the works
 
-
 // import functions from work.js
+import { addWorkElement } from "./work.js";
+
 import {
-  addWorkElement,
-} from "./work.js";
-
-import {works, getWorks, getCategoriesModal, handleWorkDeletion} from "./callAPI.js";
-
+  works,
+  getWorks,
+  getCategoriesModal,
+  handleWorkDeletion,
+} from "./callAPI.js";
 
 // API URL variable
 const API_URL = "http://localhost:5678/api";
-
 
 // Create an event listener on the modal's close buttons and the modal's background
 const closeButtons = document.querySelectorAll(".close");
@@ -138,7 +138,6 @@ function checkToken() {
 // function du get works to display in the modal
 async function getWorksModal() {
   try {
-
     const modal__gallery = document.querySelector(".modal__gallery");
     modal__gallery.innerHTML = "";
 
@@ -162,18 +161,16 @@ async function getWorksModal() {
     });
     const addWorkButton = document.querySelector("#addWork");
     addWorkButton.addEventListener("click", handleAddWorkButtonClick);
-
   } catch (error) {
     console.error("Error fetching works:", error);
   }
 }
 
-
 // function to display the img loaded from the input file into the <img class="preview">
 function displayImage(input) {
   if (input.files && input.files[0]) {
     const file = input.files[0];
-    const allowedFormats = ["image/*"];
+    const allowedFormats = ["image/png", "image/jpeg", "image/jpg"];
     const maxSize = 4 * 1024 * 1024; // 4MB
 
     if (allowedFormats.includes(file.type) && file.size <= maxSize) {
@@ -195,6 +192,13 @@ function displayImage(input) {
       faPicture.classList.add("hidden");
       const p = document.querySelector(".addPicture p");
       p.classList.add("hidden");
+
+      // Trigger click event on .addPictureLabel when .addPicture is clicked
+      const addPicture = document.querySelector(".addPicture");
+      addPicture.addEventListener("click", function(event) {
+        addPictureLabel.click();
+      });
+
     } else {
       console.error("Invalid image format or size");
       alert("Invalid image format or size");
@@ -202,30 +206,10 @@ function displayImage(input) {
   }
 }
 
-// prevent the first click on the addPicture button to trigger the displayImage function twice
-let isFirstClick = true;
-
 // Call the displayImage function when a file is loaded via #addPictureInput
 const addPictureInput = document.querySelector("#addPictureInput");
-addPictureInput.addEventListener("change", function () {
-  // prevent the first click on the addPicture button to trigger the displayImage function twice
-  if (isFirstClick) {
-    isFirstClick = false;
-    return;
-  }
+addPictureInput.addEventListener("input", function () {
   displayImage(this);
-});
-
-// Trigger click event on .addPictureLabel when .addPicture is clicked
-const addPictureDiv = document.querySelector(".addPicture");
-const addPictureLabel = document.querySelector(".addPictureLabel");
-addPictureDiv.addEventListener("click", function () {
-  // prevent the first click on the addPicture button to trigger the displayImage function twice
-  if (isFirstClick) {
-    isFirstClick = false;
-    return;
-  }
-  addPictureLabel.click();
 });
 
 // // check if the form is valid before sending the POST request to the API
@@ -259,7 +243,6 @@ function validateForm() {
 addPictureInput.addEventListener("blur", validateForm);
 titleInput.addEventListener("blur", validateForm);
 categorySelect.addEventListener("blur", validateForm);
-
 
 //// POST request to the API to add a work
 
@@ -318,7 +301,6 @@ form.addEventListener("submit", async (event) => {
         works.push(work);
         // Close the modal
         handleCloseButtonClick();
-
       } else {
         // Error occurred while posting data
         console.error("Error occurred while posting data");
@@ -334,5 +316,4 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-
-export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal};
+export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal };
