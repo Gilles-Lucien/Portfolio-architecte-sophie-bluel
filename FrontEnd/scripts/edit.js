@@ -166,6 +166,8 @@ async function getWorksModal() {
   }
 }
 
+
+
 // function to display the img loaded from the input file into the <img class="preview">
 function displayImage(input) {
   if (input.files && input.files[0]) {
@@ -193,11 +195,6 @@ function displayImage(input) {
       const p = document.querySelector(".addPicture p");
       p.classList.add("hidden");
 
-      // Trigger click event on .addPictureLabel when .addPicture is clicked
-      const addPicture = document.querySelector(".addPicture");
-      addPicture.addEventListener("click", function(event) {
-        addPictureLabel.click();
-      });
 
     } else {
       console.error("Invalid image format or size");
@@ -205,6 +202,16 @@ function displayImage(input) {
     }
   }
 }
+
+// Add event listener to the div imgPreview to simulate a click event on the #addPictureLabel element
+const imgPreview = document.querySelector("#preview");
+imgPreview.addEventListener("click", function (event) {
+  event.stopPropagation(); // Stop event bubbling
+  // Simulate a click event on the #addPictureLabel element
+  const addPictureLabel = document.querySelector("#addPictureLabel");
+  addPictureLabel.click();
+  console.log("click");
+});
 
 // Call the displayImage function when a file is loaded via #addPictureInput
 const addPictureInput = document.querySelector("#addPictureInput");
