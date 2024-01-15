@@ -28,8 +28,6 @@ function loginUser() {
       localStorage.setItem("token", token);
       // Store the user id in localStorage
       localStorage.setItem("userId", data.userId);
-      console.log("Token:", token);
-      console.log("User id:", data.userId);
       // Redirect to index.html if token is defined
       token && (window.location.href = "./index.html");
     
