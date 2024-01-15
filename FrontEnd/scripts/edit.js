@@ -1,22 +1,17 @@
 // Here is the code to display the edit mode and to edit the works
 
-// tâches réalisées depuis la dernière session :
-
-// tâches à réaliser :
-// - restreindre l'upload de fichier aux seuls images, avec une contrainte de taille (4mo)
-// - ligne 100 et 131 ne pas utiliser une boucle pour masquer lesfiltres, uniquement ajouter classe hidden sur la div qui les contient
-// - ne pas faire d'appel à l'api pour le catégories de la modale, mais utiliser une variable contenant les catégories que l'on mettra en paramètre de la fonction addCategory
 
 // import functions from work.js
 import {
   addWorkElement,
 } from "./work.js";
 
-import {works, getWorks} from "./callAPI.js";
+import {works, getWorks, getCategoriesModal, handleWorkDeletion} from "./callAPI.js";
 
 
 // API URL variable
 const API_URL = "http://localhost:5678/api";
+
 
 // Create an event listener on the modal's close buttons and the modal's background
 const closeButtons = document.querySelectorAll(".close");
@@ -38,6 +33,7 @@ function handleEditButtonClick() {
   modalBackground.classList.remove("hidden");
   getWorks();
   getWorksModal();
+  getCategoriesModal();
 }
 
 // function to handle the click on the close button
@@ -167,88 +163,42 @@ async function getWorksModal() {
     const addWorkButton = document.querySelector("#addWork");
     addWorkButton.addEventListener("click", handleAddWorkButtonClick);
 
-    console.log(works);
   } catch (error) {
     console.error("Error fetching works:", error);
   }
 }
 
-// Function to handle the deletion of a work
-function handleWorkDeletion(figure) {
-  const workId = figure.dataset.id; // Get the work ID from the dataset
-  const token = localStorage.getItem("token"); // Get the token from local storage
-
-  // Send a DELETE request to the backend with the token
-  fetch(`${API_URL}/works/${workId}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log("Work deleted successfully");
-        // remove the img from the modal
-        figure.remove();
-        // remove the img from the gallery
-        const gallery = document.querySelector(".gallery");
-        const figures = gallery.querySelectorAll("figure");
-        figures.forEach((figure) => {
-          if (figure.dataset.id === workId) {
-            figure.remove();
-          }
-        });
-      } else {
-        console.error("Failed to delete work");
-      }
-    })
-    .catch((error) => {
-      console.error("Error deleting work:", error);
-    });
-}
-
-// function to fetch the categories and display them in the modal <select>
-async function getCategoriesModal() {
-  try {
-    const response = await fetch(`${API_URL}/categories`);
-    const categories = await response.json();
-
-    const modal__select = document.querySelector("#category");
-    modal__select.innerHTML = "";
-
-    categories.forEach((category) => {
-      const option = document.createElement("option");
-      option.value = category.id;
-      option.innerText = category.name;
-      modal__select.appendChild(option);
-    });
-    console.log(categories);
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-  }
-}
 
 // function to display the img loaded from the input file into the <img class="preview">
 function displayImage(input) {
   if (input.files && input.files[0]) {
-    const reader = new FileReader();
+    const file = input.files[0];
+    const allowedFormats = ["image/*"];
+    const maxSize = 4 * 1024 * 1024; // 4MB
 
-    reader.onload = function (e) {
+    if (allowedFormats.includes(file.type) && file.size <= maxSize) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const preview = document.querySelector("#preview");
+        preview.src = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+
+      // toggle off and on hidden class for elements that must appear or disappear once the picture is loaded
+      const addPictureLabel = document.querySelector(".addPictureLabel");
+      addPictureLabel.classList.add("hidden");
       const preview = document.querySelector("#preview");
-      preview.src = e.target.result;
-    };
-
-    reader.readAsDataURL(input.files[0]);
-
-    // toggle off and on hidden class for elements that must appear or disappear once the picture is loaded
-    const addPictureLabel = document.querySelector(".addPictureLabel");
-    addPictureLabel.classList.add("hidden");
-    const preview = document.querySelector("#preview");
-    preview.classList.remove("hidden");
-    const faPicture = document.querySelector(".fa-picture");
-    faPicture.classList.add("hidden");
-    const p = document.querySelector(".addPicture p");
-    p.classList.add("hidden");
+      preview.classList.remove("hidden");
+      const faPicture = document.querySelector(".fa-picture");
+      faPicture.classList.add("hidden");
+      const p = document.querySelector(".addPicture p");
+      p.classList.add("hidden");
+    } else {
+      console.error("Invalid image format or size");
+      alert("Invalid image format or size");
+    }
   }
 }
 
@@ -289,9 +239,11 @@ const modalButton = document.querySelector("#submit");
 function validateForm() {
   // Check if all required fields are filled
   const isFormValid = Boolean(addPictureInput.value && titleInput.value);
-  console.log(isFormValid);
-  console.log(addPictureInput.value);
-  console.log(titleInput.value);
+  // uncomment to check if the form is valid
+  // console.log(isFormValid);
+  // console.log(addPictureInput.value);
+  // console.log(titleInput.value);
+  // console.log(`category Id : ${categorySelect.value}`);
 
   if (isFormValid) {
     // Remove the "inactive" class and the "disabled" attribute
@@ -344,10 +296,7 @@ form.addEventListener("submit", async (event) => {
         body: apiFormData,
         headers: headers,
       });
-      console.log(response);
       if (response.ok) {
-        // Data posted successfully
-        console.log("Data posted successfully");
         // Add the work to the gallery
         const work = await response.json();
         addWorkElement(work, document.querySelector(".gallery"));
@@ -365,6 +314,8 @@ form.addEventListener("submit", async (event) => {
         modal__gallery.appendChild(figure);
         figure.appendChild(img);
         figure.appendChild(i);
+        // update works array
+        works.push(work);
         // Close the modal
         handleCloseButtonClick();
 
@@ -384,4 +335,4 @@ form.addEventListener("submit", async (event) => {
 });
 
 
-export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal };
+export { checkToken, handleEditButtonClick, getWorksModal, getCategoriesModal};
