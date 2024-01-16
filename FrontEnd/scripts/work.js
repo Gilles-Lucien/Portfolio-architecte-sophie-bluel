@@ -38,7 +38,6 @@ async function getCategories() {
 // function to handle the click on a filter button
 function handleFilterClick(event) {
   const categoryId = event.target.dataset.category;
-  const buttonId = event.target.id;
 
   // toggle active class on filter buttons
   const filterButtons = document.querySelectorAll(".filter");
@@ -61,4 +60,4 @@ checkToken();
 getWorksModal();
 getCategoriesModal();
 
-export { getWorks, getCategories, addWorkElement, addCategory };
+export { getWorks, getCategories, addWorkElement, addCategory, API_URL };
