@@ -1,5 +1,6 @@
 // Here is the code to login a user
 
+
 function loginUser() {
   const emailInput = document.querySelector('input[type="email"]');
   const passwordInput = document.querySelector('input[type="password"]');
@@ -30,7 +31,6 @@ function loginUser() {
       localStorage.setItem("userId", data.userId);
       // Redirect to index.html if token is defined
       token && (window.location.href = "./index.html");
-    
     })
     .catch((error) => {
       console.error("Error:", error);
